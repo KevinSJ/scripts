@@ -1,0 +1,14 @@
+[Unit]
+Description=CAE SSH Service
+After=network.target
+
+[Service]
+User={local username}
+KillMode=process
+KillSignal=SIGTERM
+ExecStart=/usr/bin/autossh -M 0 -N -q -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -p 22 -l {remote username} best-tux.cae.wisc.edu -L 33890:{Remote desktop address}:3389 -L 15210:{Remote database server address}:1521 {remote username}@best-tux.cae.wisc.edu -i /path/to/identityfile
+Restart=always
+RestartSec=60s
+TimeoutSec=5s
+[Install]
+WantedBy=multi-user.target
